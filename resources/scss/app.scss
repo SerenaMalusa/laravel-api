@@ -1,0 +1,16 @@
+// @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/dist/css/bootstrap.rtl.min.css";
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    main {
+        flex-grow: 1;
+    }
+}
+
+a {
+    text-decoration: none;
+}

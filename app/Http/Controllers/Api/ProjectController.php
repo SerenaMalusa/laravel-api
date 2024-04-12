@@ -18,14 +18,15 @@ class ProjectController extends Controller
         // select all the chosen colunms of the Projects, with the details of related type and technologies, then paginate them
         $projects = Project::orderBy('created_at', 'desc')
             ->select(['id', 'type_id', 'title', 'description', 'repository', 'image', 'github_link', 'creation_date', 'last_commit'])
+            ->with(['type', 'technologies'])
             ->paginate();
 
         //cycle all projects
         foreach ($projects as $project) {
-            // add the html tag for the badge to the type
-            $project->type_badge = $project->type->getBadge();
-            // add the html tags for the badges of the technologies
-            $project->technologies_badges = $project->getTechnologiesBadges();
+            // // add the html tag for the badge to the type
+            // $project->type_badge = $project->type->getBadge();
+            // // add the html tags for the badges of the technologies
+            // $project->technologies_badges = $project->getTechnologiesBadges();
             // if there is a related image send the url, else send null
             $project->image = ($project->image) ? asset('/storage/' . $project->image) : null;
         }

@@ -17,7 +17,7 @@ class ProjectController extends Controller
     {
         // select all the chosen colunms of the Projects, with the details of related type and technologies, then paginate them
         $projects = Project::orderBy('created_at', 'desc')
-            ->select(['id', 'type_id', 'title', 'description', 'repository', 'image', 'github_link', 'creation_date', 'last_commit'])
+            ->select(['id', 'slug', 'type_id', 'title', 'description', 'repository', 'image', 'github_link', 'creation_date', 'last_commit'])
             ->with(['type', 'technologies'])
             ->paginate();
 

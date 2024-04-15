@@ -40,8 +40,15 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($slug)
     {
+        //get the first project with this slug from the db, with all the relations
+        $project = Project::where('slug', $slug)
+            ->with(['type', 'technologies'])
+            ->first();
+
+        // dd($project);
+
         //clone the project
         $project_copy = clone $project;
         //get the badge for the type related to this project
@@ -55,7 +62,10 @@ class ProjectController extends Controller
         //save the array with the badges in a new property of project 
         $project_copy->technologies_badges = $technologies_badges;
 
-        //return the project
+        // if there is a related image send the url, else send null
+        $project_copy->image = ($project_copy->image) ? asset('/storage/' . $project_copy->image) : null;
+
+        // return the project
         return response()->json($project_copy);
     }
 

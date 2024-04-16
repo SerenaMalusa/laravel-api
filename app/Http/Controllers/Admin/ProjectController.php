@@ -126,4 +126,20 @@ class ProjectController extends Controller
         $project->delete();
         return redirect()->route('projects.index');
     }
+
+    /**
+     * Delete the image related to the project
+     *
+     */
+    public function destroy_image(Project $project)
+    {
+        //delete the image from the storage
+        Storage::delete($project->image);
+        //set the value of project image to null
+        $project->image = null;
+        //save the project in the db
+        $project->save();
+        //return the user to where it was
+        return redirect()->back();
+    }
 }

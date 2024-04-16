@@ -64,11 +64,11 @@
                 </div>
             </div>
 
-            <div class="col-6">
-                
+            <div class="col-6">                
                 @if($project->image)
-                    <label for="image" class="form-label">Image</label>
+                    <div class="form-label">Image</div>
                     <img class="img-fluid mb-3" src="{{ asset('storage/' . $project->image) }}" alt="project image">
+                    <label for="image" class="form-label">Change Image</label>
                 @else
                     <label for="image" class="form-label">Add Image</label>
                 @endif
@@ -79,6 +79,12 @@
                     </div>
                 @enderror
             </div>
+
+            @if(!empty($project->image))
+                <div class="col-6 d-flex flex-column justify-content-end align-items-start">
+                    <div class="btn btn-danger" id="delete-img-btn">Delete Image</div>
+                </div>
+            @endif
 
             <div class="col-6 row">
                 <div class="col-6">
@@ -131,6 +137,35 @@
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 
+    @if($project->image)
+        <form class="d-none" action="{{ route('admin.projects.destroy-image', $project) }}" method="POST" id="delete-img-form">
+            @csrf
+            @method('DELETE') 
+        </form>
+    @endif
+
     </div>
   </section>
+@endsection
+
+@section('js')
+  <script>
+    // get all elements from the dom
+    const deleteImgForm = document.getElementById('delete-img-form');
+    const deleteImgBtn = document.getElementById('delete-img-btn');
+    // console.log(deleteImgBtn,deleteImgForm);
+
+    if(deleteImgBtn) {
+
+        // add an event listener on the button
+        deleteImgBtn.addEventListener('click', () => {
+
+            console.log(deleteImgForm);
+            //submit the form
+            deleteImgForm.submit();
+        });
+
+    }
+    
+  </script>
 @endsection
